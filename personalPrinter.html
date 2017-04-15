@@ -1,0 +1,51 @@
+<head>
+<script type="text/javascript" src="jquery.min.js"></script>
+<style>
+.weather {
+  /* outline-color: black; */
+  /* outline-width: 1px; */
+  /* border-color: black; */
+  border-width: 1px;
+  border: black;
+  border-style: double;  
+  display: inline-block;
+  width: 30%;
+}
+body {
+    -webkit-column-count: 1; /* Chrome, Safari, Opera */
+    -moz-column-count: 1; /* Firefox */
+    column-count: 1;
+}
+iframe {
+border: none
+}
+</style>
+</head>
+<body style="width: 400px;">
+<center><div id="weather">
+<section>
+<h1>And now, the weather.</h1>
+
+
+</div></center>
+<script>
+
+$.ajax({url: "http://api.openweathermap.org/data/2.5/forecast?id=4671212&units=imperial", async:false, success: function(result){
+			window.parsedWeather = []
+           window.weather = result
+		   $.each(window.weather.list,function(index,value) {window.parsedWeather.push([new Date(value.dt*1000), value.main.temp_max, value.main.temp_min, value.weather[0].main, value.weather[0].icon])});
+
+		   i = 0
+		   $.each(window.parsedWeather.slice(0,12),function(index,value) {
+		   if (i == 3) {$('#weather')[0].innerHTML += "<br />"; i = 0}
+		   i++
+		   
+		   $('#weather')[0].innerHTML += "<div class='weather'> <img src='http://openweathermap.org/img/w/" + window.parsedWeather[index][4] + ".png' /><br />" + window.parsedWeather[index][0].getMonth()+1 + "/" + window.parsedWeather[index][0].getDate() + "<br />" + window.parsedWeather[index][3] + "<br />" +window.parsedWeather[index][1] + " > " + window.parsedWeather[index][2] + "</div>"
+		   });
+        }});
+</script></section>
+<hr />
+<iframe src="text.htm"></iframe>
+<hr />
+
+</body>
